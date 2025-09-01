@@ -15,7 +15,7 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-2xl font-bold">
-              o<span className="text-red-600">i</span>pinion.org
+              o<span className="text-red-600">i</span>pinion.com
             </Link>
             
             <nav className="hidden md:flex items-center space-x-6">
