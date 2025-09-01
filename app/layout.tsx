@@ -5,10 +5,10 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Oipinion.org - Portal opinii o firmach',
+  title: 'oipinion.com - Portal opinii o firmach',
   description: 'Portal z opiniami o firmach - sprawdź recenzje i podziel się swoimi doświadczeniami. Znajdź rzetelne informacje o firmach na podstawie opinii innych użytkowników.',
   keywords: 'opinie o firmach, recenzje firm, portal opinii, NIP firmy, opinie NIP, pracodawcy',
-  authors: [{ name: 'Oipinion.org' }],
+  authors: [{ name: 'oipinion.com' }],
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
@@ -18,16 +18,16 @@ export const metadata: Metadata = {
     apple: '/favicon.ico'
   },
   openGraph: {
-    title: 'Oipinion.org - Portal opinii o firmach',
+    title: 'oipinion.com - Portal opinii o firmach',
     description: 'Portal z opiniami o firmach - sprawdź recenzje i podziel się swoimi doświadczeniami',
-    url: 'https://oipinion.org',
-    siteName: 'Oipinion.org',
+    url: 'https://oipinion.com',
+    siteName: 'oipinion.com',
     type: 'website',
     locale: 'pl_PL'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Oipinion.org - Portal opinii o firmach',
+    title: 'oipinion.com - Portal opinii o firmach',
     description: 'Portal z opiniami o firmach - sprawdź recenzje i podziel się swoimi doświadczeniami'
   },
   robots: {
