@@ -1,0 +1,264 @@
+'use client'
+
+import { useState } from 'react'
+import { Employer } from '@/lib/supabase'
+
+interface ReviewModalProps {
+  employer: Employer
+  isOpen: boolean
+  onClose: () => void
+}
+
+export function ReviewModal({ employer, isOpen, onClose }: ReviewModalProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  const [formData, setFormData] = useState({
+    authorName: '',
+    authorEmail: '',
+    rating: 0,
+    title: '',
+    body: ''
+  })
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setMessage(null)
+
+    try {
+      // Walidacja
+      if (formData.rating === 0) {
+        setMessage({ type: 'error', text: 'Wybierz ocenę ogólną' })
+        setIsSubmitting(false)
+        return
+      }
+
+      if (!formData.authorName || formData.authorName.trim().length < 2) {
+        setMessage({ type: 'error', text: 'Nazwa użytkownika musi mieć co najmniej 2 znaki' })
+        setIsSubmitting(false)
+        return
+      }
+
+      if (formData.body.trim().length < 10) {
+        setMessage({ type: 'error', text: 'Treść opinii musi mieć co najmniej 10 znaków' })
+        setIsSubmitting(false)
+        return
+      }
+
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          employerSlug: employer.slug,
+          authorName: formData.authorName.trim(),
+          authorEmail: formData.authorEmail.trim() || undefined,
+          rating: formData.rating,
+          title: formData.title.trim() || undefined,
+          body: formData.body.trim()
+        })
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setMessage({ type: 'success', text: 'Opinia została dodana pomyślnie!' })
+        setFormData({
+          authorName: '',
+          authorEmail: '',
+          rating: 0,
+          title: '',
+          body: ''
+        })
+        
+        // Odśwież stronę po chwili
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      } else {
+        setMessage({ type: 'error', text: result.error || 'Wystąpił błąd' })
+      }
+    } catch {
+      setMessage({ type: 'error', text: 'Wystąpił błąd podczas wysyłania opinii' })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const StarSelector = ({ 
+    value, 
+    onChange, 
+    label 
+  }: { 
+    value: number
+    onChange: (rating: number) => void
+    label: string 
+  }) => (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
+      <div className="flex items-center gap-1">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            type="button"
+            onClick={() => onChange(star)}
+            className="text-lg hover:scale-110 transition-transform"
+          >
+            <i 
+              className={`${
+                star <= value ? 'fas fa-star text-yellow-400' : 'far fa-star text-gray-300'
+              }`}
+            ></i>
+          </button>
+        ))}
+        {value > 0 && (
+          <span className="ml-2 text-sm text-gray-600">{value}/5</span>
+        )}
+      </div>
+    </div>
+  )
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-semibold">Dodaj opinię o {employer.name}</h3>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 text-xl"
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+          
+          {message && (
+            <div className={`p-4 rounded-md mb-4 ${
+              message.type === 'success' 
+                ? 'bg-green-50 text-green-800 border border-green-200' 
+                : 'bg-red-50 text-red-800 border border-red-200'
+            }`}>
+              {message.text}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Ocena ogólna - wymagana */}
+            <StarSelector
+              value={formData.rating}
+              onChange={(rating) => setFormData(prev => ({ ...prev, rating }))}
+              label="Ocena ogólna *"
+            />
+
+            {/* Tytuł opinii */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Tytuł opinii
+              </label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                placeholder="Krótkie podsumowanie Twojej opinii"
+                maxLength={255}
+              />
+            </div>
+
+            {/* Treść opinii */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Treść opinii *
+              </label>
+              <textarea
+                value={formData.body}
+                onChange={(e) => setFormData(prev => ({ ...prev, body: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                rows={5}
+                placeholder="Opisz swoje doświadczenia z tą firmą..."
+                maxLength={2000}
+                required
+              />
+              <div className="text-right text-xs text-gray-500 mt-1">
+                {formData.body.length}/2000
+              </div>
+            </div>
+
+            {/* Dane autora */}
+            <div className="space-y-4">
+              <h4 className="font-medium text-gray-900">Twoje dane</h4>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Imię lub pseudonim *
+                </label>
+                <input
+                  type="text"
+                  value={formData.authorName}
+                  onChange={(e) => setFormData(prev => ({ ...prev, authorName: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  placeholder="Jak chcesz być wyświetlany?"
+                  maxLength={255}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={formData.authorEmail}
+                  onChange={(e) => setFormData(prev => ({ ...prev, authorEmail: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  placeholder="Nie będzie publikowany"
+                  maxLength={255}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Email nie będzie wyświetlany publicznie
+                </p>
+              </div>
+            </div>
+
+            {/* Przyciski */}
+            <div className="flex gap-4">
+              <button
+                type="submit"
+                disabled={isSubmitting || formData.rating === 0 || formData.body.trim().length < 10 || formData.authorName.trim().length < 2}
+                className="flex-1 bg-red-600 text-white py-3 px-4 rounded-md hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <i className="fas fa-spinner fa-spin mr-2"></i>
+                    Dodawanie...
+                  </span>
+                ) : (
+                  'Dodaj opinię'
+                )}
+              </button>
+              
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Anuluj
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-500">
+              Dodając opinię akceptujesz nasze zasady użytkowania. Opinie są moderowane.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+}
