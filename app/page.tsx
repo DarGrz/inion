@@ -1,12 +1,10 @@
 import Link from 'next/link'
-import { getEmployers, getRecentReviews } from '@/lib/database'
+import { getRecentReviews } from '@/lib/database'
 import { SearchBox } from './components/SearchBox'
+import { FakeReviews } from './components/FakeReviews'
 
 export default async function HomePage() {
-  const [employers, recentReviews] = await Promise.all([
-    getEmployers(12), // Top 12 pracodawców
-    getRecentReviews(10) // 10 najnowszych opinii
-  ])
+  const recentReviews = await getRecentReviews(10) // 10 najnowszych opinii
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -81,7 +79,7 @@ export default async function HomePage() {
       </section>
 
       {/* Recent Reviews */}
-      <section className="py-16" id="reviews">
+      <section className="py-16 hidden" id="reviews">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -152,67 +150,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Top Companies */}
-      <section className="py-16 bg-gray-100 hidden" id="companies">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Popularne firmy
-            </h2>
-            <p className="text-gray-600">
-              Firmy z największą liczbą opinii
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {employers.map((employer) => (
-              <Link
-                key={employer.id}
-                href={`/pracodawca/${employer.slug}`}
-                className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="text-center">
-                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                    {employer.name}
-                  </h3>
-                  
-                  {employer.city && (
-                    <p className="text-sm text-gray-500 mb-3">{employer.city}</p>
-                  )}
-
-                  {employer.review_count > 0 ? (
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-center gap-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <i 
-                            key={star}
-                            className={`fas fa-star text-sm ${
-                              star <= Math.round(employer.avg_rating) 
-                                ? 'text-yellow-400' 
-                                : 'text-gray-300'
-                            }`}
-                          ></i>
-                        ))}
-                        <span className="ml-1 text-sm font-medium">
-                          {employer.avg_rating.toFixed(1)}
-                        </span>
-                      </div>
-                      
-                      <p className="text-sm text-gray-500">
-                        {employer.review_count} {employer.review_count === 1 ? 'opinia' : 'opinii'}
-                      </p>
-                    </div>
-                  ) : (
-                    <p className="text-sm text-gray-400">
-                      Brak opinii - bądź pierwszy!
-                    </p>
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Fake Reviews Section */}
+      <FakeReviews />
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-12">
