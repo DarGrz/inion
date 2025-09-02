@@ -34,7 +34,7 @@ export default async function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-white py-16">
+      <section className="bg-white py-12">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Znajdź opinie o firmach
@@ -44,7 +44,11 @@ export default async function HomePage() {
           </p>
           
           {/* Search Bar */}
-          <SearchBox />
+          <div className="container mx-auto ">
+            <div className="max-w-2xl mx-auto">
+              <SearchBox />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -216,7 +220,7 @@ export default async function HomePage() {
           
           
          
-            <p>&copy; 2025 Oipinion.com</p>
+            <p>&copy; 2024 Oipinion.com</p>
           
         </div>
       </footer>
