@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Rewalidacja strony pracodawcy - JSON-LD będzie od razu aktualny
-    revalidatePath(`/pracodawca/${body.employerSlug}`)
+    revalidatePath(`/${body.employerSlug}`)
     revalidatePath('/') // Także strona główna z najnowszymi opiniami
 
     return NextResponse.json(

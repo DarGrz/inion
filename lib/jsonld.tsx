@@ -54,7 +54,7 @@ export function generateEmployerJsonLd(params: {
   baseUrl: string
 }): JsonLdOrganization {
   const { employer, baseUrl } = params
-  const employerUrl = `${baseUrl}/pracodawca/${employer.slug}`
+  const employerUrl = `${baseUrl}/${employer.slug}`
 
   const jsonLd: JsonLdOrganization = {
     '@context': 'https://schema.org',
@@ -117,7 +117,7 @@ export function generateReviewJsonLd(params: {
   baseUrl: string
 }): JsonLdReview {
   const { review, employerSlug, baseUrl } = params
-  const employerUrl = `${baseUrl}/pracodawca/${employerSlug}`
+  const employerUrl = `${baseUrl}/${employerSlug}`
 
   return {
     '@context': 'https://schema.org',

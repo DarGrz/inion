@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 // import { getRecentReviews } from '@/lib/database'
 import { SearchBox } from './components/SearchBox'
 import { FakeReviews } from './components/FakeReviews'
@@ -13,7 +14,7 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="text-2xl font-bold">
-              o<span className="text-red-600">i</span>pinion.com
+              O<span className="text-red-600">i</span>pinion.com
             </Link>
             
             <nav className="hidden md:flex items-center space-x-6">
@@ -127,7 +128,7 @@ export default async function HomePage() {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <Link 
-                      href={`/pracodawca/${review.employer.slug}`}
+                      href={`/${review.employer.slug}`}
                       className="text-lg font-semibold text-gray-900 hover:text-red-600 transition-colors"
                     >
                       {review.employer.name}

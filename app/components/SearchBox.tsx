@@ -67,7 +67,7 @@ export function SearchBox() {
     e.preventDefault()
     if (results.length > 0) {
       // Przekieruj do pierwszego wyniku
-      window.location.href = `/pracodawca/${results[0].slug}`
+      window.location.href = `/${results[0].slug}`
     }
   }
 
@@ -108,7 +108,7 @@ export function SearchBox() {
               {results.map((employer) => (
                 <Link
                   key={employer.id}
-                  href={`/pracodawca/${employer.slug}`}
+                  href={`/${employer.slug}`}
                   className="block p-3 sm:p-4 hover:bg-gray-50 transition-colors"
                   onClick={() => setShowResults(false)}
                 >

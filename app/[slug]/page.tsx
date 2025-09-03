@@ -66,7 +66,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      url: `${BASE_URL}/pracodawca/${employer.slug}`,
+      url: `${BASE_URL}/${employer.slug}`,
       siteName: 'Oipinion.com',
       type: 'website',
       locale: 'pl_PL'
@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description
     },
     alternates: {
-      canonical: `${BASE_URL}/pracodawca/${employer.slug}`
+      canonical: `${BASE_URL}/${employer.slug}`
     }
   }
 }
@@ -330,7 +330,7 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                 {hasMoreReviews && (
                   <div className="p-6 border-t text-center">
                     <Link
-                      href={`/pracodawca/${employer.slug}?page=${page + 1}`}
+                      href={`/${employer.slug}?page=${page + 1}`}
                       className="bg-gray-100 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-200 transition-colors"
                     >
                       Załaduj więcej opinii
