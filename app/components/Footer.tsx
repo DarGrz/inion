@@ -20,8 +20,7 @@ export function Footer() {
               <h3 className="text-xl font-bold">Oipinion.com</h3>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Platforma opinii o pracodawcach w Polsce. Dziel się swoimi doświadczeniami 
-              zawodowymi i pomagaj innym w podejmowaniu świadomych decyzji karrierowych.
+              Platforma opinii o firmach w Polsce. Dziel się swoimi doświadczeniami i pomagaj innym w podejmowaniu świadomych decyzji.
             </p>
           </div>
 
