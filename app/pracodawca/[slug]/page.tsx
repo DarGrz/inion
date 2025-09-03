@@ -33,9 +33,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const title = `Opinie o ${employer.name} - Oipinion.com`
+  
+  // Tworzenie opisu z informacjami o firmie
+  let companyInfo = employer.name
+  if (employer.description) {
+    companyInfo += `. ${employer.description}`
+  }
+  if (employer.city) {
+    companyInfo += `. ${employer.city}`
+  }
+  if (employer.nip) {
+    companyInfo += `. NIP: ${employer.nip}`
+  }
+  
   const description = employer.review_count > 0 
-    ? `Sprawdź ${employer.review_count} opinii o ${employer.name}. Średnia ocena: ${employer.avg_rating.toFixed(1)}/5. Przeczytaj recenzje pracowników i podziel się swoim doświadczeniem.`
-    : `Opinie o ${employer.name}. Bądź pierwszy - dodaj swoją opinię o tej firmie.`
+    ? `${companyInfo}. Sprawdź ${employer.review_count} opinii. Średnia ocena: ${employer.avg_rating.toFixed(1)}/5. Przeczytaj recenzje pracowników i podziel się swoim doświadczeniem.`
+    : `${companyInfo}. Opinie (${employer.review_count}). Bądź pierwszy - dodaj swoją opinię o tej firmie.`
 
   return {
     title,
