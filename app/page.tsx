@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import { getRecentReviews } from '@/lib/database'
+// import { getRecentReviews } from '@/lib/database'
 import { SearchBox } from './components/SearchBox'
 import { FakeReviews } from './components/FakeReviews'
 
 export default async function HomePage() {
-  const recentReviews = await getRecentReviews(10) // 10 najnowszych opinii
+  // const recentReviews = await getRecentReviews(10) // 10 najnowszych opinii
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -20,7 +20,7 @@ export default async function HomePage() {
               <Link href="#" className="text-gray-600 hover:text-red-600 transition-colors">
                 Strona główna
               </Link>
-              <Link href="#companies" className="text-gray-600 hover:text-red-600 transition-colors">
+              <Link href="#companies" className="text-gray-600 hidden hover:text-red-600 transition-colors">
                 Firmy
               </Link>
               <Link href="#search" className="text-gray-600 hover:text-red-600 transition-colors">
@@ -79,7 +79,7 @@ export default async function HomePage() {
       </section>
 
       {/* Recent Reviews */}
-      <section className="py-16 hidden" id="reviews">
+      {/* <section className="py-16 hidden" id="reviews">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -148,7 +148,7 @@ export default async function HomePage() {
             </div>
           )}
         </div>
-      </section>
+      </section> */}
 
       {/* Fake Reviews Section */}
       <FakeReviews />
