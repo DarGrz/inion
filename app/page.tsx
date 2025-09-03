@@ -50,6 +50,37 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* AI Verification Banner */}
+      <section className="py-8 bg-white border-b">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100">
+              <div className="flex items-center gap-4">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                    <i className="fas fa-brain text-white text-xl"></i>
+                  </div>
+                </div>
+                <div className="flex-1 text-center md:text-left">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    Weryfikacja opinii wspierana przez AI
+                  </h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Nasze nowoczesne rozwiązania sztucznej inteligencji analizują autentyczność opinii, 
+                    filtrują spam i zapewniają wiarygodność recenzji.
+                  </p>
+                </div>
+                <div className="flex-shrink-0 hidden md:block">
+                  <div className="text-blue-600">
+                    <i className="fas fa-shield-check text-2xl"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Stats Section */}
       <section className="py-12 bg-gray-100">
         <div className="container mx-auto px-4">

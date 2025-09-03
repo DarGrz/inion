@@ -39,8 +39,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (employer.description) {
     companyInfo += `. ${employer.description}`
   }
-  if (employer.city) {
-    companyInfo += `. ${employer.city}`
+  if (employer.address || employer.city) {
+    const fullAddress = [employer.address, employer.city].filter(Boolean).join(', ')
+    companyInfo += `. ${fullAddress}`
   }
   if (employer.nip) {
     companyInfo += `. NIP: ${employer.nip}`
@@ -57,6 +58,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       `opinie ${employer.name}`,
       `recenzje ${employer.name}`,
       employer.nip ? `NIP ${employer.nip}` : '',
+      employer.address || '',
       employer.city || '',
       'opinie o firmie',
       'recenzje pracodawcy'
@@ -144,10 +146,10 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                     )}
 
                     <div className="flex flex-wrap gap-4 text-sm text-gray-500">
-                      {employer.city && (
+                      {(employer.address || employer.city) && (
                         <span className="flex items-center">
                           <i className="fas fa-map-marker-alt mr-1"></i>
-                          {employer.city}
+                          {[employer.address, employer.city].filter(Boolean).join(', ')}
                         </span>
                       )}
                       {employer.nip && (
@@ -212,6 +214,34 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                   )}
                 </div>
               </div>
+
+              {/* Informacja o weryfikacji AI */}
+              {employer.review_count > 0 && (
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                        <i className="fas fa-brain text-white text-xl"></i>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                        Weryfikacja opinii wspierana przez AI
+                      </h3>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        Nasze nowoczesne rozwiązania sztucznej inteligencji analizują autentyczność opinii, 
+                        filtrują spam i zapewniają wiarygodność recenzji, aby dostarczyć Ci najlepsze 
+                        doświadczenie podczas wyboru firmy.
+                      </p>
+                    </div>
+                    <div className="flex-shrink-0 hidden md:block">
+                      <div className="text-blue-600">
+                        <i className="fas fa-shield-check text-2xl"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Statystyki opinii */}
               {employer.review_count > 0 && (
