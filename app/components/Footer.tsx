@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export function Footer() {
   return (
@@ -76,11 +77,11 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Informacje</h4>
             <div className="space-y-2 text-sm">
-              <div><a href="/regulamin" className="text-gray-300 hover:text-white transition-colors">Regulamin</a></div>
-              <div><a href="/polityka-prywatnosci" className="text-gray-300 hover:text-white transition-colors">Polityka prywatności</a></div>
-              <div><a href="/cookies" className="text-gray-300 hover:text-white transition-colors">Polityka cookies</a></div>
-              <div><a href="/pomoc" className="text-gray-300 hover:text-white transition-colors">Centrum pomocy</a></div>
-              <div><a href="/kariera" className="text-gray-300 hover:text-white transition-colors">Kariera</a></div>
+              <div><Link href="/regulamin" className="text-gray-300 hover:text-white transition-colors">Regulamin</Link></div>
+              <div><Link href="/polityka-prywatnosci" className="text-gray-300 hover:text-white transition-colors">Polityka prywatności</Link></div>
+              <div><Link href="/cookies" className="text-gray-300 hover:text-white transition-colors">Polityka cookies</Link></div>
+              <div><Link href="/pomoc" className="text-gray-300 hover:text-white transition-colors">Centrum pomocy</Link></div>
+              <div><Link href="/kariera" className="text-gray-300 hover:text-white transition-colors">Kariera</Link></div>
             </div>
             
             <div className="mt-6">
