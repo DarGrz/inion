@@ -258,12 +258,24 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                         Dodaj opinię
                       </ScrollToReviewFormButton>
                     ) : (
-                      <div className="bg-gray-300 text-gray-500 px-4 py-2 rounded-md cursor-not-allowed">
+                      <div className="bg-gray-100 text-gray-600 px-4 py-2 rounded-md cursor-not-allowed text-sm">
                         Dodawanie opinii wyłączone
                       </div>
                     )}
                   </div>
                 </div>
+                
+                {/* Komunikat o zablokowanych opiniach */}
+                {!employer.reviews_status && (
+                  <div className="px-6 py-4 bg-amber-50 border-l-4 border-amber-400">
+                    <div className="flex items-center">
+                      <i className="fas fa-exclamation-triangle text-amber-500 mr-3"></i>
+                      <p className="text-sm text-amber-700">
+                        Dodawanie opinii o tej firmie jest obecnie zablokowane z powodu trwającej weryfikacji.
+                      </p>
+                    </div>
+                  </div>
+                )}
 
                 <div className="divide-y">
                   {reviews.length === 0 ? (
@@ -319,13 +331,13 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                     <h3 className="text-lg font-semibold mb-4 text-gray-700">
                       Dodawanie opinii
                     </h3>
-                    <div className="text-center py-8">
-                      <i className="fas fa-ban text-4xl text-gray-300 mb-4"></i>
-                      <p className="text-gray-500 mb-2">
-                        Dodawanie opinii jest wyłączone
+                    <div className="text-center py-6">
+                      <i className="fas fa-shield-alt text-4xl text-amber-500 mb-4"></i>
+                      <p className="text-gray-600 mb-2 font-medium">
+                        Opinie zablokowane
                       </p>
-                      <p className="text-sm text-gray-400">
-                        Funkcja dodawania opinii została tymczasowo wyłączona dla tej firmy.
+                      <p className="text-sm text-gray-500 leading-relaxed">
+                        Dodawanie opinii o tej firmie jest obecnie zablokowane z powodu trwającej weryfikacji.
                       </p>
                     </div>
                   </div>
