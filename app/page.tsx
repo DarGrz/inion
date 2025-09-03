@@ -38,7 +38,7 @@ export default async function HomePage() {
             Znajdź opinie o firmach
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Podziel się swoim doświadczeniem i pomóż innym w podjęciu decyzji o wyborze pracodawcy
+            Podziel się swoim doświadczeniem i pomóż innym w podjęciu decyzji.
           </p>
           
           {/* Search Bar */}
