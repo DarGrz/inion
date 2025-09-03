@@ -258,24 +258,16 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                         Dodaj opinię
                       </ScrollToReviewFormButton>
                     ) : (
-                      <div className="bg-gray-100 text-gray-600 px-4 py-2 rounded-md cursor-not-allowed text-sm">
-                        Dodawanie opinii wyłączone
-                      </div>
+                      <Link
+                        href="/"
+                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-flex items-center"
+                      >
+                        <i className="fas fa-search mr-2"></i>
+                        Sprawdź podobne firmy
+                      </Link>
                     )}
                   </div>
                 </div>
-                
-                {/* Komunikat o zablokowanych opiniach */}
-                {!employer.reviews_status && (
-                  <div className="px-6 py-4 bg-amber-50 border-l-4 border-amber-400">
-                    <div className="flex items-center">
-                      <i className="fas fa-exclamation-triangle text-amber-500 mr-3"></i>
-                      <p className="text-sm text-amber-700">
-                        Dodawanie opinii o tej firmie jest obecnie zablokowane z powodu trwającej weryfikacji.
-                      </p>
-                    </div>
-                  </div>
-                )}
 
                 <div className="divide-y">
                   {reviews.length === 0 ? (
@@ -329,16 +321,23 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                 ) : (
                   <div className="bg-white rounded-lg p-6 shadow-sm">
                     <h3 className="text-lg font-semibold mb-4 text-gray-700">
-                      Dodawanie opinii
+                      Szukasz opinii o firmach?
                     </h3>
                     <div className="text-center py-6">
-                      <i className="fas fa-shield-alt text-4xl text-amber-500 mb-4"></i>
-                      <p className="text-gray-600 mb-2 font-medium">
-                        Opinie zablokowane
+                      <i className="fas fa-search text-4xl text-blue-500 mb-4"></i>
+                      <p className="text-gray-600 mb-4 font-medium">
+                        Sprawdź inne firmy
                       </p>
-                      <p className="text-sm text-gray-500 leading-relaxed">
-                        Dodawanie opinii o tej firmie jest obecnie zablokowane z powodu trwającej weryfikacji.
+                      <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+                        Przejrzyj opinie o tysiącach innych pracodawców i znajdź idealną firmę dla siebie.
                       </p>
+                      <Link
+                        href="/"
+                        className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors inline-flex items-center justify-center w-full"
+                      >
+                        <i className="fas fa-search mr-2"></i>
+                        Sprawdź podobne firmy
+                      </Link>
                     </div>
                   </div>
                 )}
