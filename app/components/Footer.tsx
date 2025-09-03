@@ -38,7 +38,7 @@ export function Footer() {
                 <i className="fas fa-map-marker-alt w-5 mr-2 mt-1"></i>
                 <div>
                   <div>Warszawa</div>
-                  <div>NIP: 1234567890</div>
+                  
                 </div>
               </div>
             </div>
