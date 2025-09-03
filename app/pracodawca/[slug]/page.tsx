@@ -250,12 +250,18 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                     <h2 className="text-xl font-semibold">
                       Opinie ({employer.review_count})
                     </h2>
-                    <ScrollToReviewFormButton
-                      className="bg-red-600  text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
-                      employer={employer}
-                    >
-                      Dodaj opinię
-                    </ScrollToReviewFormButton>
+                    {employer.reviews_status ? (
+                      <ScrollToReviewFormButton
+                        className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+                        employer={employer}
+                      >
+                        Dodaj opinię
+                      </ScrollToReviewFormButton>
+                    ) : (
+                      <div className="bg-gray-300 text-gray-500 px-4 py-2 rounded-md cursor-not-allowed">
+                        Dodawanie opinii wyłączone
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -266,9 +272,15 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                       <p className="text-gray-500 mb-4">
                         Brak opinii o tej firmie
                       </p>
-                      <p className="text-sm text-gray-400">
-                        Bądź pierwszy - podziel się swoim doświadczeniem!
-                      </p>
+                      {employer.reviews_status ? (
+                        <p className="text-sm text-gray-400">
+                          Bądź pierwszy - podziel się swoim doświadczeniem!
+                        </p>
+                      ) : (
+                        <p className="text-sm text-gray-400">
+                          Dodawanie opinii jest obecnie wyłączone dla tej firmy.
+                        </p>
+                      )}
                     </div>
                   ) : (
                     reviews.map((review) => (
@@ -297,10 +309,27 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-4">
-                <AddReviewForm 
-                  employer={employer}
-                  id="add-review-form"
-                />
+                {employer.reviews_status ? (
+                  <AddReviewForm 
+                    employer={employer}
+                    id="add-review-form"
+                  />
+                ) : (
+                  <div className="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 className="text-lg font-semibold mb-4 text-gray-700">
+                      Dodawanie opinii
+                    </h3>
+                    <div className="text-center py-8">
+                      <i className="fas fa-ban text-4xl text-gray-300 mb-4"></i>
+                      <p className="text-gray-500 mb-2">
+                        Dodawanie opinii jest wyłączone
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Funkcja dodawania opinii została tymczasowo wyłączona dla tej firmy.
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

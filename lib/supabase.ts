@@ -21,6 +21,7 @@ export interface Employer {
   phone3?: string
   avg_rating: number
   review_count: number
+  reviews_status: boolean // Określa czy dodawanie opinii jest włączone
   created_at: string
   updated_at: string
 }
