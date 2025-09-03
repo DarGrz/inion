@@ -184,17 +184,6 @@ export default async function HomePage() {
 
       {/* Fake Reviews Section */}
       <FakeReviews />
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white py-12">
-        <div className="container mx-auto px-4 text-center">
-          
-          
-         
-            <p>&copy; 2024 Oipinion.com</p>
-          
-        </div>
-      </footer>
     </div>
   )
 }

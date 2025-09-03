@@ -9,6 +9,7 @@ export function SearchBox() {
   const [results, setResults] = useState<Employer[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [showResults, setShowResults] = useState(false)
+  const [isButtonFlashing, setIsButtonFlashing] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
 
   // Zamknij wyniki gdy kliknięto poza komponentem
@@ -31,6 +32,8 @@ export function SearchBox() {
     }
 
     setIsLoading(true)
+    setIsButtonFlashing(true)
+    
     try {
       const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery.trim())}&limit=10`)
       const data = await response.json()
@@ -48,25 +51,25 @@ export function SearchBox() {
       setShowResults(false)
     } finally {
       setIsLoading(false)
+      // Zakończ animację błysku po krótkim czasie
+      setTimeout(() => setIsButtonFlashing(false), 200)
     }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setQuery(value)
-    
-    // Debounce search
-    const timeoutId = setTimeout(() => {
-      handleSearch(value)
-    }, 300)
-
-    return () => clearTimeout(timeoutId)
+    // Usunięto automatyczne wyszukiwanie - teraz tylko po kliknięciu przycisku
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (results.length > 0) {
-      // Przekieruj do pierwszego wyniku
+    
+    if (query.trim().length >= 2) {
+      // Rozpocznij wyszukiwanie
+      handleSearch(query)
+    } else if (results.length > 0) {
+      // Jeśli są już wyniki, przekieruj do pierwszego
       window.location.href = `/${results[0].slug}`
     }
   }
@@ -79,13 +82,21 @@ export function SearchBox() {
             type="text"
             value={query}
             onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && query.trim().length >= 2) {
+                e.preventDefault()
+                handleSearch(query)
+              }
+            }}
             placeholder="Wyszukaj firmę po nazwie lub NIP..."
             className="flex-1 px-4 py-3 sm:py-4 text-sm sm:text-base bg-transparent border-none outline-none placeholder-gray-500"
           />
           <button 
             type="submit"
-            className="bg-red-600 text-white px-4 sm:px-8 py-3 sm:py-4 hover:bg-red-700 transition-colors disabled:bg-gray-400 flex-shrink-0 rounded-r-md"
-            disabled={isLoading || results.length === 0}
+            className={`bg-red-600 text-white px-4 sm:px-8 py-3 sm:py-4 hover:bg-red-700 transition-all duration-200 disabled:bg-gray-400 flex-shrink-0 rounded-r-md ${
+              isButtonFlashing ? 'animate-pulse bg-red-700 shadow-lg' : ''
+            }`}
+            disabled={isLoading || query.trim().length < 2}
           >
             {isLoading ? (
               <i className="fas fa-spinner fa-spin"></i>
