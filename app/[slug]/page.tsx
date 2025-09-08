@@ -99,7 +99,7 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
   }
 
   const page = parseInt(pageParam || '1')
-  const limit = 20
+  const limit = 50
   const offset = (page - 1) * limit
 
   const [reviews, aggregate] = await Promise.all([
