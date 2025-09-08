@@ -256,10 +256,12 @@ export function generateSlug(name: string): string {
     .trim()
 }
 
-export async function createEmployerIfNotExists(data: {
+export async function createEmployer(data: {
   name: string
   nip: string // Wymagane
   url?: string
+  address?: string
+  postal_code?: string // Nowe pole
   city?: string
   description?: string
   phone1?: string
@@ -272,16 +274,7 @@ export async function createEmployerIfNotExists(data: {
       return { success: false, error: 'NIP musi składać się z 10 cyfr' }
     }
 
-    // Sprawdź czy NIP już istnieje
-    const { data: existingByNip } = await supabase
-      .from('employers')
-      .select('*')
-      .eq('nip', data.nip)
-      .single()
-
-    if (existingByNip) {
-      return { success: true, employer: existingByNip }
-    }
+    // Usunieto sprawdzanie unikalności NIP - teraz można dodawać oddziały z tym samym NIP
 
     const slug = generateSlug(data.name)
 
@@ -308,6 +301,8 @@ export async function createEmployerIfNotExists(data: {
         name: data.name,
         nip: data.nip,
         url: data.url,
+        address: data.address,
+        postal_code: data.postal_code,
         city: data.city,
         description: data.description,
         phone1: data.phone1,

@@ -14,6 +14,7 @@ export interface Employer {
   url?: string
   logo?: string
   address?: string
+  postal_code?: string // Kod pocztowy XX-XXX
   city?: string
   description?: string
   phone1?: string
@@ -44,6 +45,38 @@ export interface Review {
   updated_at: string
   ip_address: string // Wymagane
   user_agent?: string
+}
+
+// Typy dla artykułów
+export interface Article {
+  id: string
+  slug: string
+  title: string
+  excerpt?: string
+  content: string
+  meta_title?: string
+  meta_description?: string
+  featured_image?: string
+  author_name: string
+  author_email?: string
+  status: 'draft' | 'published' | 'archived'
+  published_at?: string
+  created_at: string
+  updated_at: string
+  view_count: number
+  sort_order: number
+}
+
+export interface ArticleCategory {
+  id: string
+  name: string
+  slug: string
+  description?: string
+  created_at: string
+}
+
+export interface ArticleWithCategories extends Article {
+  categories?: ArticleCategory[]
 }
 
 export interface ReviewVote {

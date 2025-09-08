@@ -12,11 +12,12 @@ import { AddReviewForm } from './AddReviewForm'
 import { ReviewCard } from './ReviewCard'
 import { StarRating } from './StarRating'
 import { RatingDistribution } from './RatingDistribution'
-import { ScrollToReviewFormButton } from './ScrollToReviewFormButton'
+import { AddReviewButton } from './AddReviewButton'
+import { EmployerPageClient } from './EmployerPageClient'
 
 interface PageProps {
   params: { slug: string }
-  searchParams: { page?: string }
+  searchParams: { page?: string; 'add-review'?: string }
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://oipinion.com'
@@ -39,8 +40,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (employer.description) {
     companyInfo += `. ${employer.description}`
   }
-  if (employer.address || employer.city) {
-    const fullAddress = [employer.address, employer.city].filter(Boolean).join(', ')
+  if (employer.address || employer.postal_code || employer.city) {
+    const fullAddress = [
+      employer.address, 
+      employer.postal_code, 
+      employer.city
+    ].filter(Boolean).join(', ')
     companyInfo += `. ${fullAddress}`
   }
   if (employer.nip) {
@@ -59,6 +64,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       `recenzje ${employer.name}`,
       employer.nip ? `NIP ${employer.nip}` : '',
       employer.address || '',
+      employer.postal_code || '',
       employer.city || '',
       'opinie o firmie',
       'recenzje pracodawcy'
@@ -104,7 +110,7 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
   const hasMoreReviews = reviews.length === limit
 
   return (
-    <>
+    <EmployerPageClient employer={employer}>
       {/* JSON-LD dla Schema.org */}
       <EmployerJsonLd employer={employer} baseUrl={BASE_URL} />
       {reviews.length > 0 && (
@@ -146,10 +152,14 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                     )}
 
                     <div className="flex flex-wrap gap-4 text-sm text-gray-500">
-                      {(employer.address || employer.city) && (
+                      {(employer.address || employer.postal_code || employer.city) && (
                         <span className="flex items-center">
                           <i className="fas fa-map-marker-alt mr-1"></i>
-                          {[employer.address, employer.city].filter(Boolean).join(', ')}
+                          {[
+                            employer.address,
+                            employer.postal_code,
+                            employer.city
+                          ].filter(Boolean).join(', ')}
                         </span>
                       )}
                       {employer.nip && (
@@ -244,19 +254,19 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
               )}
 
               {/* Statystyki opinii */}
-              {employer.review_count > 0 && (
+              {aggregate.review_count > 0 && (
                 <div className="bg-white rounded-lg p-6 shadow-sm">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <h2 className="text-xl font-semibold mb-4">Ocena ogólna</h2>
                       <div className="flex items-center gap-4">
                         <div className="text-4xl font-bold text-red-600">
-                          {employer.avg_rating.toFixed(1)}
+                          {aggregate.avg_rating.toFixed(1)}
                         </div>
                         <div>
-                          <StarRating rating={employer.avg_rating} size="lg" />
+                          <StarRating rating={aggregate.avg_rating} size="lg" />
                           <p className="text-sm text-gray-500 mt-1">
-                            {employer.review_count} {employer.review_count === 1 ? 'opinia' : 'opinii'}
+                            {aggregate.review_count} {aggregate.review_count === 1 ? 'opinia' : 'opinii'}
                           </p>
                         </div>
                       </div>
@@ -266,7 +276,7 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                       <h3 className="text-lg font-semibold mb-3">Rozkład ocen</h3>
                       <RatingDistribution 
                         distribution={aggregate.rating_distribution}
-                        totalReviews={employer.review_count}
+                        totalReviews={aggregate.review_count}
                       />
                     </div>
                   </div>
@@ -281,12 +291,12 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
                       Opinie ({employer.review_count})
                     </h2>
                     {employer.reviews_status ? (
-                      <ScrollToReviewFormButton
+                      <AddReviewButton
                         className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
                         employer={employer}
                       >
                         Dodaj opinię
-                      </ScrollToReviewFormButton>
+                      </AddReviewButton>
                     ) : (
                       <Link
                         href="/"
@@ -376,6 +386,6 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
           </div>
         </div>
       </div>
-    </>
+    </EmployerPageClient>
   )
 }

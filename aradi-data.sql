@@ -4,12 +4,13 @@
 -- Address: ul. Podhalańska 20, 40-215 Katowice
 -- Status: No reviews
 
-INSERT INTO employers (name, slug, nip, address, city, rating, review_count, created_at, updated_at) 
+INSERT INTO employers (name, slug, nip, address, postal_code, city, rating, review_count, created_at, updated_at) 
 VALUES (
     'ARADI Arkadiusz Chwila',
     'aradi-arkadiusz-chwila',
     '9542675650',
     'ul. Podhalańska 20',
+    '40-215',
     'Katowice',
     0.0,
     0,

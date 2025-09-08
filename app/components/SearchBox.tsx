@@ -129,10 +129,10 @@ export function SearchBox() {
                         {employer.name}
                       </h3>
                       <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs sm:text-sm text-gray-500 mt-1">
-                        {employer.city && (
+                        {(employer.address || employer.city) && (
                           <span className="flex items-center">
                             <i className="fas fa-map-marker-alt mr-1"></i>
-                            {employer.city}
+                            {[employer.address, employer.city].filter(Boolean).join(', ')}
                           </span>
                         )}
                         {employer.nip && (

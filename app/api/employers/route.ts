@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createEmployerIfNotExists } from '@/lib/database'
+import { createEmployer } from '@/lib/database'
 
 interface CreateEmployerRequest {
   name: string
   nip: string
   url?: string
+  address?: string
+  postal_code?: string
   city?: string
   description?: string
   phone1?: string
@@ -57,6 +59,14 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Walidacja kodu pocztowego (jeśli podany)
+    if (body.postal_code && !/^\d{2}-\d{3}$/.test(body.postal_code)) {
+      return NextResponse.json(
+        { error: 'Kod pocztowy musi być w formacie XX-XXX' },
+        { status: 400 }
+      )
+    }
+
     // Walidacja telefonów (jeśli podane)
     const phoneRegex = /^[\d\s\-\+\(\)]{7,20}$/
     if (body.phone1 && !phoneRegex.test(body.phone1)) {
@@ -79,10 +89,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Utwórz pracodawcę
-    const result = await createEmployerIfNotExists({
+    const result = await createEmployer({
       name: body.name.trim(),
       nip: body.nip,
       url: body.url?.trim(),
+      address: body.address?.trim(),
+      postal_code: body.postal_code?.trim(),
       city: body.city?.trim(),
       description: body.description?.trim(),
       phone1: body.phone1?.trim(),
