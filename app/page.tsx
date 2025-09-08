@@ -1,13 +1,10 @@
 import Link from 'next/link'
-import Image from 'next/image'
 // import { getRecentReviews } from '@/lib/database'
 import { SearchBox } from './components/SearchBox'
 import { FakeReviews } from './components/FakeReviews'
-import { getLatestArticles } from '@/lib/articles'
 
 export default async function HomePage() {
   // const recentReviews = await getRecentReviews(10) // 10 najnowszych opinii
-  const latestArticles = await getLatestArticles(4)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -22,9 +19,6 @@ export default async function HomePage() {
             <nav className="hidden md:flex items-center space-x-6">
               <Link href="#" className="text-gray-600 hover:text-red-600 transition-colors">
                 Strona główna
-              </Link>
-              <Link href="/artykuly" className="text-gray-600 hover:text-red-600 transition-colors">
-                Artykuły
               </Link>
               <Link href="#companies" className="text-gray-600 hidden hover:text-red-600 transition-colors">
                 Firmy
@@ -189,73 +183,6 @@ export default async function HomePage() {
 
       {/* Fake Reviews Section */}
       <FakeReviews />
-
-      {/* Latest Articles Section */}
-      {latestArticles.length > 0 && (
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Najnowsze artykuły
-              </h2>
-              <p className="text-gray-600">
-                Przeczytaj nasze najnowsze artykuły o rynku pracy i firmach
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {latestArticles.map((article) => (
-                <article key={article.id} className="bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                  {article.featured_image && (
-                    <div className="aspect-video w-full overflow-hidden">
-                      <Image
-                        src={article.featured_image}
-                        alt={article.title || 'Artykuł'}
-                        width={300}
-                        height={169}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  
-                  <div className="p-4">
-                    <h3 className="font-semibold mb-2 line-clamp-2">
-                      <Link href={`/artykuly/${article.slug}`} className="hover:text-red-600 transition-colors">
-                        {article.title}
-                      </Link>
-                    </h3>
-                    
-                    {article.excerpt && (
-                      <p className="text-gray-600 text-sm line-clamp-3 mb-3">
-                        {article.excerpt}
-                      </p>
-                    )}
-                    
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <span>{article.author_name}</span>
-                      {article.published_at && (
-                        <time dateTime={article.published_at}>
-                          {new Date(article.published_at).toLocaleDateString('pl-PL')}
-                        </time>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <div className="text-center mt-8">
-              <Link
-                href="/artykuly"
-                className="inline-flex items-center px-6 py-3 border border-red-600 text-red-600 hover:bg-red-600 hover:text-white rounded-lg transition-colors"
-              >
-                Zobacz wszystkie artykuły
-                <i className="fas fa-arrow-right ml-2"></i>
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   )
 }

@@ -181,9 +181,6 @@ export default function PoleceneFirmyPage() {
               <Link href="/" className="text-gray-600 hover:text-red-600 transition-colors">
                 Strona główna
               </Link>
-              <Link href="/artykuly" className="text-gray-600 hover:text-red-600 transition-colors">
-                Artykuły
-              </Link>
             </nav>
           </div>
         </div>
@@ -194,8 +191,6 @@ export default function PoleceneFirmyPage() {
         <div className="container mx-auto px-4 py-3">
           <nav className="flex items-center space-x-2 text-sm text-gray-600">
             <Link href="/" className="hover:text-red-600">oipinion.com</Link>
-            <span>›</span>
-            <Link href="/artykuly" className="hover:text-red-600">Artykuły</Link>
             <span>›</span>
             <span className="text-gray-900">Polecane firmy do usuwania opinii Google</span>
           </nav>

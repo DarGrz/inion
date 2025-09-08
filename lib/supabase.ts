@@ -47,38 +47,6 @@ export interface Review {
   user_agent?: string
 }
 
-// Typy dla artykułów
-export interface Article {
-  id: string
-  slug: string
-  title: string
-  excerpt?: string
-  content: string
-  meta_title?: string
-  meta_description?: string
-  featured_image?: string
-  author_name: string
-  author_email?: string
-  status: 'draft' | 'published' | 'archived'
-  published_at?: string
-  created_at: string
-  updated_at: string
-  view_count: number
-  sort_order: number
-}
-
-export interface ArticleCategory {
-  id: string
-  name: string
-  slug: string
-  description?: string
-  created_at: string
-}
-
-export interface ArticleWithCategories extends Article {
-  categories?: ArticleCategory[]
-}
-
 export interface ReviewVote {
   id: string
   review_id: string

@@ -41,12 +41,6 @@ export default async function AuthorizedAdminLayout({ children }: AuthorizedAdmi
                 Firmy
               </Link>
               <Link 
-                href="/admin/articles" 
-                className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Artykuły
-              </Link>
-              <Link 
                 href="/" 
                 className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
               >
