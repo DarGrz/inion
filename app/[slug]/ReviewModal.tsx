@@ -125,39 +125,52 @@ export function ReviewModal({ employer, isOpen, onClose }: ReviewModalProps) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold">Dodaj opinię o {employer.name}</h3>
+    <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center p-0 sm:p-4 z-50 animate-in fade-in duration-200">
+      <div className="bg-white rounded-t-2xl sm:rounded-xl shadow-xl w-full sm:max-w-lg sm:w-full max-h-[95vh] sm:max-h-[85vh] overflow-y-auto border-t sm:border border-gray-200 animate-in slide-in-from-bottom-4 duration-200">
+        {/* Header minimalistyczny */}
+        <div className="sticky top-0 bg-white border-b border-gray-100 p-4 sm:p-5">
+          <div className="flex items-center justify-between">
+            <div className="min-w-0 flex-1">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 truncate">Dodaj opinię</h3>
+              <p className="text-gray-600 text-sm truncate">{employer.name}</p>
+            </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-xl"
+              className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full p-2 ml-3 flex-shrink-0"
             >
-              <i className="fas fa-times"></i>
+              <i className="fas fa-times text-lg"></i>
             </button>
           </div>
+        </div>
+        
+        <div className="p-6">
           
           {message && (
-            <div className={`p-4 rounded-md mb-4 ${
+            <div className={`p-4 rounded-lg mb-6 border ${
               message.type === 'success' 
-                ? 'bg-green-50 text-green-800 border border-green-200' 
-                : 'bg-red-50 text-red-800 border border-red-200'
+                ? 'bg-green-50 text-green-800 border-green-200' 
+                : 'bg-red-50 text-red-800 border-red-200'
             }`}>
-              {message.text}
+              <div className="flex items-center">
+                <i className={`${message.type === 'success' ? 'fas fa-check-circle text-green-600' : 'fas fa-exclamation-triangle text-red-600'} mr-3`}></i>
+                {message.text}
+              </div>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Ocena ogólna - wymagana */}
-            <StarSelector
-              value={formData.rating}
-              onChange={(rating) => setFormData(prev => ({ ...prev, rating }))}
-              label="Ocena ogólna *"
-            />
+            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <StarSelector
+                value={formData.rating}
+                onChange={(rating) => setFormData(prev => ({ ...prev, rating }))}
+                label="Ocena ogólna"
+              />
+              <p className="text-xs text-gray-500 mt-2">* Pole wymagane</p>
+            </div>
 
             {/* Tytuł opinii */}
-            <div>
+            <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Tytuł opinii
               </label>
@@ -165,28 +178,31 @@ export function ReviewModal({ employer, isOpen, onClose }: ReviewModalProps) {
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                placeholder="Krótkie podsumowanie Twojej opinii"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                placeholder="Krótkie podsumowanie Twojej opinii..."
                 maxLength={255}
               />
             </div>
 
             {/* Treść opinii */}
-            <div>
+            <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Treść opinii *
+                Treść opinii <span className="text-red-500">*</span>
               </label>
               <textarea
                 value={formData.body}
                 onChange={(e) => setFormData(prev => ({ ...prev, body: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
                 rows={5}
-                placeholder="Opisz swoje doświadczenia z tą firmą..."
+                placeholder="Opisz swoje doświadczenia z tą firmą. Co Ci się podobało? Co można poprawić?"
                 maxLength={2000}
                 required
               />
-              <div className="text-right text-xs text-gray-500 mt-1">
-                {formData.body.length}/2000
+              <div className="flex justify-between items-center">
+                <div className="text-xs text-gray-500">Minimum 10 znaków</div>
+                <div className={`text-xs ${formData.body.length > 1800 ? 'text-red-500' : 'text-gray-500'}`}>
+                  {formData.body.length}/2000
+                </div>
               </div>
             </div>
 
@@ -202,7 +218,7 @@ export function ReviewModal({ employer, isOpen, onClose }: ReviewModalProps) {
                   type="text"
                   value={formData.authorName}
                   onChange={(e) => setFormData(prev => ({ ...prev, authorName: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="Jak chcesz być wyświetlany?"
                   maxLength={255}
                   required
@@ -217,7 +233,7 @@ export function ReviewModal({ employer, isOpen, onClose }: ReviewModalProps) {
                   type="email"
                   value={formData.authorEmail}
                   onChange={(e) => setFormData(prev => ({ ...prev, authorEmail: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="Nie będzie publikowany"
                   maxLength={255}
                 />
@@ -228,11 +244,11 @@ export function ReviewModal({ employer, isOpen, onClose }: ReviewModalProps) {
             </div>
 
             {/* Przyciski */}
-            <div className="flex gap-4">
+            <div className="flex gap-3 pt-4 border-t border-gray-100">
               <button
                 type="submit"
                 disabled={isSubmitting || formData.rating === 0 || formData.body.trim().length < 10 || formData.authorName.trim().length < 2}
-                className="flex-1 bg-red-600 text-white py-3 px-4 rounded-md hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                className="flex-1 bg-gray-900 text-white py-3 px-4 rounded-lg hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">
@@ -247,13 +263,13 @@ export function ReviewModal({ employer, isOpen, onClose }: ReviewModalProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
               >
                 Anuluj
               </button>
             </div>
 
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 text-center">
               Dodając opinię akceptujesz nasze zasady użytkowania. Opinie są moderowane.
             </p>
           </form>
