@@ -1,15 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL!
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!
-
-// Sprawdź czy zmienne środowiskowe są ustawione
-if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
-  throw new Error('ADMIN_EMAIL i ADMIN_PASSWORD muszą być ustawione w zmiennych środowiskowych')
-}
-
 export async function POST(request: NextRequest) {
   try {
+    // Sprawdź czy zmienne środowiskowe są ustawione
+    const ADMIN_EMAIL = process.env.ADMIN_EMAIL
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
+    
+    if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+      console.error('ADMIN_EMAIL i ADMIN_PASSWORD muszą być ustawione w zmiennych środowiskowych')
+      return NextResponse.json(
+        { error: 'Konfiguracja serwera jest nieprawidłowa' },
+        { status: 500 }
+      )
+    }
     const { email, password } = await request.json()
 
     // Walidacja danych
