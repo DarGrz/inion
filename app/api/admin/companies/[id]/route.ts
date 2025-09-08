@@ -5,7 +5,7 @@ import { requireAdminAuth } from '@/lib/auth'
 // GET - Pobierz firmę po ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Sprawdź autoryzację
@@ -47,7 +47,7 @@ export async function GET(
 // PUT - Aktualizuj firmę
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Sprawdź autoryzację
@@ -162,7 +162,7 @@ export async function PUT(
 // DELETE - Usuń firmę
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Sprawdź autoryzację

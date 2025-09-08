@@ -5,7 +5,7 @@ import { requireAdminAuth } from '@/lib/auth'
 // GET - Pobierz wszystkie opinie dla firmy (w tym niepublikowane)
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Sprawdź autoryzację
@@ -48,7 +48,7 @@ export async function GET(
 // POST - Dodaj nową opinię
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Sprawdź autoryzację

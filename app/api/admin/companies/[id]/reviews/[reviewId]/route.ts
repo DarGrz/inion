@@ -5,7 +5,7 @@ import { requireAdminAuth } from '@/lib/auth'
 // GET - Pobierz opinię po ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string; reviewId: string } }
+  { params }: { params: Promise<{ id: string; reviewId: string }> }
 ) {
   try {
     // Sprawdź autoryzację
@@ -48,7 +48,7 @@ export async function GET(
 // PUT - Aktualizuj opinię
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string; reviewId: string } }
+  { params }: { params: Promise<{ id: string; reviewId: string }> }
 ) {
   try {
     // Sprawdź autoryzację
@@ -179,7 +179,7 @@ export async function PUT(
 // DELETE - Usuń opinię
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; reviewId: string } }
+  { params }: { params: Promise<{ id: string; reviewId: string }> }
 ) {
   try {
     // Sprawdź autoryzację
