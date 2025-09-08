@@ -192,7 +192,7 @@ export default function PoleceneFirmyPage() {
           <nav className="flex items-center space-x-2 text-sm text-gray-600">
             <Link href="/" className="hover:text-red-600">oipinion.com</Link>
             <span>›</span>
-            <span className="text-gray-900">Polecane firmy do usuwania opinii Google</span>
+            <span className="text-gray-900">Usuwanie Opinii Google Polecane Firmy</span>
           </nav>
         </div>
       </div>
@@ -202,7 +202,7 @@ export default function PoleceneFirmyPage() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
           <div className="text-center mb-8">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Polecane Firmy do Usuwania Opinii Google
+              Usuwanie Opinii Google Polecane Firmy
             </h1>
             <p className="text-xl text-gray-600 mb-6 max-w-4xl mx-auto">
               Jeśli szukasz profesjonalnej pomocy w usuwaniu negatywnych opinii Google, oto 2 najlepsze firmy na polskim rynku, które polecają nasi klienci i eksperci branży zarządzania reputacją online.
