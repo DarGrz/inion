@@ -105,10 +105,6 @@ export async function POST(
         rating: body.rating,
         title: body.title?.trim() || null,
         body: body.body.trim(),
-        work_life_balance: body.work_life_balance || null,
-        salary_rating: body.salary_rating || null,
-        management_rating: body.management_rating || null,
-        career_development: body.career_development || null,
         status: body.status || 'published',
         published_at: body.status === 'published' ? new Date().toISOString() : null,
         ip_address: '127.0.0.1', // Admin IP

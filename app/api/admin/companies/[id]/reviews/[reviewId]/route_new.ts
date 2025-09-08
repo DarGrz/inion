@@ -116,6 +116,10 @@ export async function PUT(
       rating: number
       title: string | null
       body: string
+      work_life_balance: number | null
+      salary_rating: number | null
+      management_rating: number | null
+      career_development: number | null
       status: string
       updated_at: string
       published_at?: string | null
@@ -125,6 +129,10 @@ export async function PUT(
       rating: body.rating,
       title: body.title?.trim() || null,
       body: body.body.trim(),
+      work_life_balance: body.work_life_balance || null,
+      salary_rating: body.salary_rating || null,
+      management_rating: body.management_rating || null,
+      career_development: body.career_development || null,
       status: body.status || 'published',
       updated_at: new Date().toISOString()
     }

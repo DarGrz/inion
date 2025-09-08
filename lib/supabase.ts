@@ -2,8 +2,17 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.SUPABASE_URL!
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY!
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+// Klient z uprawnieniami service role - do operacji administracyjnych
+export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false
+  }
+})
 
 // Typy dla TypeScript
 export interface Employer {
@@ -35,10 +44,6 @@ export interface Review {
   rating: number
   title?: string
   body: string
-  work_life_balance?: number
-  salary_rating?: number
-  management_rating?: number
-  career_development?: number
   status: 'pending' | 'published' | 'rejected' | 'hidden'
   published_at?: string
   created_at: string

@@ -11,10 +11,6 @@ interface ReviewFormData {
   rating: number
   title: string
   body: string
-  work_life_balance: number
-  salary_rating: number
-  management_rating: number
-  career_development: number
   status: 'pending' | 'published' | 'rejected' | 'hidden'
 }
 
@@ -34,10 +30,6 @@ export default function CompanyReviewsAdmin({ params }: { params: Promise<{ id: 
     rating: 5,
     title: '',
     body: '',
-    work_life_balance: 5,
-    salary_rating: 5,
-    management_rating: 5,
-    career_development: 5,
     status: 'published'
   })
 
@@ -87,10 +79,6 @@ export default function CompanyReviewsAdmin({ params }: { params: Promise<{ id: 
       rating: 5,
       title: '',
       body: '',
-      work_life_balance: 5,
-      salary_rating: 5,
-      management_rating: 5,
-      career_development: 5,
       status: 'published'
     })
     setEditingReview(null)
@@ -141,10 +129,6 @@ export default function CompanyReviewsAdmin({ params }: { params: Promise<{ id: 
       rating: review.rating,
       title: review.title || '',
       body: review.body,
-      work_life_balance: review.work_life_balance || 5,
-      salary_rating: review.salary_rating || 5,
-      management_rating: review.management_rating || 5,
-      career_development: review.career_development || 5,
       status: review.status
     })
     setShowAddForm(true)
@@ -343,72 +327,6 @@ export default function CompanyReviewsAdmin({ params }: { params: Promise<{ id: 
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-4">
-                <div>
-                  <label htmlFor="work_life_balance" className="block text-sm font-medium text-gray-700">
-                    Work-life balance
-                  </label>
-                  <select
-                    id="work_life_balance"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    value={formData.work_life_balance}
-                    onChange={(e) => setFormData({ ...formData, work_life_balance: parseInt(e.target.value) })}
-                  >
-                    {[1, 2, 3, 4, 5].map(rating => (
-                      <option key={rating} value={rating}>{rating} ⭐</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="salary_rating" className="block text-sm font-medium text-gray-700">
-                    Wynagrodzenie
-                  </label>
-                  <select
-                    id="salary_rating"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    value={formData.salary_rating}
-                    onChange={(e) => setFormData({ ...formData, salary_rating: parseInt(e.target.value) })}
-                  >
-                    {[1, 2, 3, 4, 5].map(rating => (
-                      <option key={rating} value={rating}>{rating} ⭐</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="management_rating" className="block text-sm font-medium text-gray-700">
-                    Zarządzanie
-                  </label>
-                  <select
-                    id="management_rating"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    value={formData.management_rating}
-                    onChange={(e) => setFormData({ ...formData, management_rating: parseInt(e.target.value) })}
-                  >
-                    {[1, 2, 3, 4, 5].map(rating => (
-                      <option key={rating} value={rating}>{rating} ⭐</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="career_development" className="block text-sm font-medium text-gray-700">
-                    Rozwój kariery
-                  </label>
-                  <select
-                    id="career_development"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    value={formData.career_development}
-                    onChange={(e) => setFormData({ ...formData, career_development: parseInt(e.target.value) })}
-                  >
-                    {[1, 2, 3, 4, 5].map(rating => (
-                      <option key={rating} value={rating}>{rating} ⭐</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
               <div className="flex justify-end space-x-3">
                 <button
                   type="button"
@@ -521,35 +439,6 @@ export default function CompanyReviewsAdmin({ params }: { params: Promise<{ id: 
                   
                   <p className="text-gray-700 mb-3">{review.body}</p>
                   
-                  {(review.work_life_balance || review.salary_rating || review.management_rating || review.career_development) && (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-3 text-sm">
-                      {review.work_life_balance && (
-                        <div>
-                          <span className="text-gray-500">Work-life balance:</span>
-                          <span className="ml-1 text-yellow-500">{'⭐'.repeat(review.work_life_balance)}</span>
-                        </div>
-                      )}
-                      {review.salary_rating && (
-                        <div>
-                          <span className="text-gray-500">Wynagrodzenie:</span>
-                          <span className="ml-1 text-yellow-500">{'⭐'.repeat(review.salary_rating)}</span>
-                        </div>
-                      )}
-                      {review.management_rating && (
-                        <div>
-                          <span className="text-gray-500">Zarządzanie:</span>
-                          <span className="ml-1 text-yellow-500">{'⭐'.repeat(review.management_rating)}</span>
-                        </div>
-                      )}
-                      {review.career_development && (
-                        <div>
-                          <span className="text-gray-500">Rozwój kariery:</span>
-                          <span className="ml-1 text-yellow-500">{'⭐'.repeat(review.career_development)}</span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
                   <div className="flex justify-between items-center">
                     <div className="flex space-x-2">
                       {review.status !== 'published' && (
