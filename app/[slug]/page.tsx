@@ -7,7 +7,6 @@ import {
   getPublishedReviews, 
   getEmployerAggregate 
 } from '@/lib/database'
-import { EmployerJsonLd, ReviewsJsonLd } from '@/lib/jsonld'
 import { AddReviewForm } from './AddReviewForm'
 import { ReviewCard } from './ReviewCard'
 import { StarRating } from './StarRating'
@@ -109,15 +108,136 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
 
   const hasMoreReviews = reviews.length === limit
 
+  // Generujemy JSON-LD bezpośrednio tutaj
+  const businessType = (employer.city || employer.address) ? 'LocalBusiness' : 'Organization'
+  const employerSchema = {
+    "@context": "https://schema.org",
+    "@type": businessType,
+    "@id": `${BASE_URL}/${employer.slug}#org`,
+    "name": employer.name,
+    ...(employer.url && { "url": employer.url }),
+    ...(employer.address && employer.city && {
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "PL",
+        "streetAddress": employer.address,
+        "addressLocality": employer.city,
+        ...(employer.postal_code && { "postalCode": employer.postal_code })
+      }
+    }),
+    ...(employer.nip && { "taxID": employer.nip }),
+    ...(aggregate && aggregate.review_count > 0 && {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": aggregate.avg_rating.toFixed(2),
+        "reviewCount": aggregate.review_count,
+        "bestRating": 5,
+        "worstRating": 1
+      }
+    })
+  }
+
+  // BreadcrumbList schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Strona główna",
+        "item": BASE_URL
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Opinie o firmach",
+        "item": `${BASE_URL}/firmy`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": employer.name,
+        "item": `${BASE_URL}/${employer.slug}`
+      }
+    ]
+  }
+
+  // WebPage schema
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${BASE_URL}/${employer.slug}`,
+    "url": `${BASE_URL}/${employer.slug}`,
+    "name": `Opinie o ${employer.name} - Oipinion.com`,
+    "description": employer.review_count > 0 
+      ? `Sprawdź ${employer.review_count} opinii o ${employer.name}. Średnia ocena: ${aggregate.avg_rating.toFixed(1)}/5.`
+      : `Opinie o ${employer.name}. Bądź pierwszy - dodaj swoją opinię.`,
+    "mainEntity": {
+      "@id": `${BASE_URL}/${employer.slug}#org`
+    },
+    "breadcrumb": {
+      "@id": `${BASE_URL}/${employer.slug}#breadcrumb`
+    },
+    "inLanguage": "pl-PL",
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": `${BASE_URL}#website`,
+      "name": "Oipinion.com",
+      "url": BASE_URL
+    }
+  }
+
+  const reviewsSchema = reviews.map(review => ({
+    "@context": "https://schema.org",
+    "@type": "Review",
+    "@id": `${BASE_URL}/${employer.slug}#review-${review.id}`,
+    "itemReviewed": {
+      "@type": "Organization", 
+      "@id": `${BASE_URL}/${employer.slug}#org`
+    },
+    "author": {
+      "@type": "Person",
+      "name": review.author_name
+    },
+    "reviewBody": review.body,
+    "name": review.title,
+    "datePublished": new Date(review.created_at).toISOString(),
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": review.rating,
+      "bestRating": 5,
+      "worstRating": 1
+    }
+  }))
+
   return (
     <EmployerPageClient employer={employer}>
-      {/* JSON-LD dla Schema.org */}
-      <EmployerJsonLd employer={employer} baseUrl={BASE_URL} />
+      {/* JSON-LD dla Schema.org - renderowane po stronie serwera */}
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(employerSchema)
+        }}
+      />
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema)
+        }}
+      />
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(webPageSchema)
+        }}
+      />
       {reviews.length > 0 && (
-        <ReviewsJsonLd 
-          reviews={reviews} 
-          employerSlug={employer.slug} 
-          baseUrl={BASE_URL} 
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(reviewsSchema)
+          }}
         />
       )}
 

@@ -58,7 +58,7 @@ export function generateEmployerJsonLd(params: {
 
   const jsonLd: JsonLdOrganization = {
     '@context': 'https://schema.org',
-    '@type': employer.city ? 'LocalBusiness' : 'Organization',
+    '@type': (employer.city || employer.address) ? 'LocalBusiness' : 'Organization',
     '@id': `${employerUrl}#org`,
     name: employer.name,
   }
@@ -177,6 +177,7 @@ export function EmployerJsonLd({ employer, baseUrl }: {
   baseUrl: string 
 }) {
   const jsonLd = generateEmployerJsonLd({ employer, baseUrl })
+  console.log('EmployerJsonLd generated:', JSON.stringify(jsonLd, null, 2))
   return <JsonLdScript data={jsonLd} />
 }
 
