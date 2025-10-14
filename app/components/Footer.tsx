@@ -12,12 +12,12 @@ export function Footer() {
             <div className="flex items-center mb-4">
               <Image 
                 src="/logo-square-transparent.png" 
-                alt="Oipinion.com Logo" 
+                alt="oipinion.pl Logo" 
                 width={40} 
                 height={40}
                 className="mr-3"
               />
-              <h3 className="text-xl font-bold">Oipinion.com</h3>
+              <h3 className="text-xl font-bold">oipinion.pl</h3>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
               Platforma opinii o firmach w Polsce. Dziel się swoimi doświadczeniami i pomagaj innym w podejmowaniu świadomych decyzji.
@@ -30,8 +30,8 @@ export function Footer() {
             <div className="space-y-2 text-sm text-gray-300">
               <div className="flex items-center">
                 <i className="fas fa-envelope w-5 mr-2"></i>
-                <a href="mailto:kontakt@oipinion.com" className="hover:text-white transition-colors">
-                  kontakt@oipinion.com
+                <a href="mailto:kontakt@oipinion.pl" className="hover:text-white transition-colors">
+                  kontakt@oipinion.pl
                 </a>
               </div>
               <div className="flex items-start">
@@ -104,7 +104,7 @@ export function Footer() {
         </div>
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
-          <p>&copy; 2024 Oipinion.com - Wszystkie prawa zastrzeżone</p>
+          <p>&copy; 2024 oipinion.pl - Wszystkie prawa zastrzeżone</p>
         </div>
       </div>
     </footer>

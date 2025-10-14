@@ -37,7 +37,7 @@ export interface JsonLdReview {
   }
   reviewBody: string
   name?: string
-  datePublished: string
+  datePublished?: string
   reviewRating: {
     '@type': 'Rating'
     ratingValue: number
@@ -127,13 +127,15 @@ export function generateReviewJsonLd(params: {
       '@type': 'Organization',
       '@id': `${employerUrl}#org`
     },
+    // Ukryj szczegóły autora dla Google - użyj ogólnej nazwy
     author: {
       '@type': 'Person',
-      name: review.author_name
+      name: 'Zweryfikowany użytkownik'
     },
     reviewBody: review.body,
-    ...(review.title ? { name: review.title } : {}),
-    datePublished: review.published_at || review.created_at,
+    // Usuń tytuł i datę aby nie pokazywały się w Google
+    // ...(review.title ? { name: review.title } : {}),
+    // datePublished: review.published_at || review.created_at,
     reviewRating: {
       '@type': 'Rating',
       ratingValue: review.rating,

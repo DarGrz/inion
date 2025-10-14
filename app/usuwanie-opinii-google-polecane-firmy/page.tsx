@@ -20,7 +20,7 @@ const jsonLdData = {
   "headline": "Polecane Firmy do Usuwania Opinii Google - TOP 2 Sprawdzone Agencje",
   "author": {
     "@type": "Organization",
-    "name": "oipinion.com"
+    "name": "oipinion.pl"
   },
   "datePublished": "2025-09-08",
   "dateModified": "2025-09-08",
@@ -190,7 +190,7 @@ export default function PoleceneFirmyPage() {
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-3">
           <nav className="flex items-center space-x-2 text-sm text-gray-600">
-            <Link href="/" className="hover:text-red-600">oipinion.com</Link>
+            <Link href="/" className="hover:text-red-600">oipinion.pl</Link>
             <span>›</span>
             <span className="text-gray-900">Usuwanie Opinii Google Polecane Firmy</span>
           </nav>

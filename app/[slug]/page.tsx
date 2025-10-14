@@ -83,6 +83,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     alternates: {
       canonical: `${BASE_URL}/${employer.slug}`
+    },
+    // Kontrola tego co Google pokazuje w wynikach wyszukiwania
+    robots: {
+      index: true,
+      follow: true,
+      nosnippet: false, // Pozwól na snippet ale bez szczegółów opinii
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1
     }
   }
 }
