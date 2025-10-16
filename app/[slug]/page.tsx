@@ -19,7 +19,7 @@ interface PageProps {
   searchParams: { page?: string; 'add-review'?: string }
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://oipinion.com'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://oipinion.pl'
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
@@ -27,12 +27,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   if (!employer) {
     return {
-      title: 'Pracodawca nie znaleziony - Oipinion.com',
+      title: 'Pracodawca nie znaleziony - Oipinion.pl',
       description: 'Pracodawca o podanym identyfikatorze nie został znaleziony.'
     }
   }
 
-  const title = `Opinie o ${employer.name} - Oipinion.com`
+  const title = `Opinie o ${employer.name} - Oipinion.pl`
   
   // Tworzenie opisu z informacjami o firmie
   let companyInfo = employer.name
@@ -72,7 +72,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       url: `${BASE_URL}/${employer.slug}`,
-      siteName: 'Oipinion.com',
+      siteName: 'Oipinion.pl',
       type: 'website',
       locale: 'pl_PL'
     },
@@ -178,7 +178,7 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
     "@type": "WebPage",
     "@id": `${BASE_URL}/${employer.slug}`,
     "url": `${BASE_URL}/${employer.slug}`,
-    "name": `Opinie o ${employer.name} - Oipinion.com`,
+    "name": `Opinie o ${employer.name} - Oipinion.pl`,
     "description": employer.review_count > 0 
       ? `Sprawdź ${employer.review_count} opinii o ${employer.name}. Średnia ocena: ${aggregate.avg_rating.toFixed(1)}/5.`
       : `Opinie o ${employer.name}. Bądź pierwszy - dodaj swoją opinię.`,
