@@ -192,7 +192,7 @@ export default async function EmployerPage({ params, searchParams }: PageProps) 
     "isPartOf": {
       "@type": "WebSite",
       "@id": `${BASE_URL}#website`,
-      "name": "Oipinion.com",
+      "name": "Oipinion.pl",
       "url": BASE_URL
     }
   }

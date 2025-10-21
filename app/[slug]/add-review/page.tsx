@@ -8,7 +8,7 @@ interface AddReviewPageProps {
   params: { slug: string }
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://oipinion.com'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://oipinion.pl'
 
 export async function generateMetadata({ params }: AddReviewPageProps): Promise<Metadata> {
   const { slug } = await params
@@ -16,12 +16,12 @@ export async function generateMetadata({ params }: AddReviewPageProps): Promise<
   
   if (!employer) {
     return {
-      title: 'Pracodawca nie znaleziony - Oipinion.com',
+      title: 'Pracodawca nie znaleziony - oipinion.pl',
       description: 'Pracodawca o podanym identyfikatorze nie został znaleziony.'
     }
   }
 
-  const title = `Dodaj opinię o ${employer.name} - Oipinion.com`
+  const title = `Dodaj opinię o ${employer.name} - oipinion.pl`
   const description = `Podziel się swoim doświadczeniem pracy w ${employer.name}. Twoja opinia pomoże innym w podjęciu decyzji zawodowej.`
 
   return {
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: AddReviewPageProps): Promise<
       title,
       description,
       url: `${BASE_URL}/${employer.slug}/add-review`,
-      siteName: 'Oipinion.com',
+      siteName: 'oipinion.pl',
       type: 'website'
     },
     robots: {
